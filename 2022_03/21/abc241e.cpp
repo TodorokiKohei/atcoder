@@ -1,0 +1,62 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define rep(i, n) for (int i = 0; i < (int)(n); i++)
+#define rrep(i, n) for(int i = n-1; i >= 0; i--)
+#define  all(x) (x).begin(),(x).end()     // 昇順ソート
+#define  rall(v) (v).rbegin(), (v).rend() // 降順ソート
+#define  FastIO ios_base::sync_with_stdio(0),cin.tie(0),cout.tie(0)
+#define sz(x) ((int)(x).size())
+typedef long long ll;
+using P = pair<int,int>;
+using VI = vector<int>;
+using VVI = vector<vector<int>>;
+using VL = vector<ll>;
+using VVL = vector<vector<ll>>;
+using VP = vector<P>;
+template<typename T> void view(T e){std::cout << e << std::endl;}
+template<class T> bool chmax(T &a, const T &b) { if (a<b) { a=b; return true; } return false; }
+template<class T> bool chmin(T &a, const T &b) { if (a>b) { a=b; return true; } return false; }
+
+const int inf = 1 << 29;
+const ll INF = 1LL << 60;
+
+int main(){
+    int n; ll k;
+    cin >> n >> k;
+    VL a(n);
+    rep(i,n) cin >> a[i];
+    VI nextI(n, -1);
+    ll x = 0;
+    bool loop = false;
+    while(!loop && k > 0){
+        int i = x%n;
+        if (nextI[i] == -1){
+            x += a[i];
+            nextI[i] = x%n;
+            k--;
+        }else{
+            loop = true;
+        }
+    }
+    if (k == 0){
+        cout << x << endl;
+        return 0;
+    }
+    VI loopI;
+    int i = x%n; ll sum = 0;
+    set<int> s;
+    while(s.count(i) == 0){
+        s.insert(i);
+        loopI.push_back(i);
+        sum += a[i];
+        i = nextI[i];
+    }
+    x += (k / loopI.size()) * sum;
+    int cnt = k % loopI.size();
+    while(cnt--){
+        x += a[i];
+        i = nextI[i];
+    }
+    cout << x << endl;
+    return 0;
+}
