@@ -1,0 +1,272 @@
+{
+	// Place your snippets for cpp here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"atcoder" : {
+		"prefix": "Atcoder",
+		"body" : [
+			"#include <bits/stdc++.h>",
+			"using namespace std;",
+			"#define rep(i, n) for (int i = 0; i < (int)(n); i++)",
+			"#define rrep(i, n) for(int i = n-1; i >= 0; i--)",
+			"#define  all(x) (x).begin(),(x).end()     // 昇順ソート",
+			"#define  rall(v) (v).rbegin(), (v).rend() // 降順ソート",
+			"#define  FastIO ios_base::sync_with_stdio(0),cin.tie(0),cout.tie(0)",
+			"#define sz(x) ((int)(x).size())",
+			"typedef long long ll;",
+			"using P = pair<int,int>;",
+			"using VI = vector<int>;",
+			"using VVI = vector<vector<int>>;",
+			"using VL = vector<ll>;",
+			"using VVL = vector<vector<ll>>;",
+			"using VP = vector<P>;",
+			"template<typename T> void view(T e){std::cout << e << std::endl;}",
+			"template<class T> bool chmax(T &a, const T &b) { if (a<b) { a=b; return true; } return false; }",
+			"template<class T> bool chmin(T &a, const T &b) { if (a>b) { a=b; return true; } return false; }",
+			"",
+			"const int inf = 1 << 29;",
+			"const ll INF = 1LL << 60;",
+			"",
+			"int main(){",
+				"\treturn 0;",
+			"}",
+		],
+		"description": "competitive programming macros"
+	},
+	"d8":{
+		"prefix": "D8",
+		"body": [
+			"int dx[] = {1, 1, 0, -1, -1, -1, 0, 1};",
+			"int dy[] = {0, 1, 1, 1, 0, -1, -1, -1};",
+		],
+		"description": "8方位の探索",
+	},
+	"d4":{
+		"prefix": "D4",
+		"body": [
+			"int dx[] = {1, 0, -1, 0};",
+			"int dy[] = {0, 1, 0, -1};",
+		],
+		"description": "4方位の探索",
+	},
+	"mint":{
+		"prefix": "Mint",
+		"body" : [
+			"const int mod = 1000000007;",
+			"struct mint {",
+			"\tll x; // typedef long long ll;",
+			"\tmint(ll x=0):x((x%mod+mod)%mod){}",
+			"\tmint operator-() const { return mint(-x);}",
+			"\tmint& operator+=(const mint a) {",
+				"\t\tif ((x += a.x) >= mod) x -= mod;",
+				"\t\treturn *this;",
+			"\t}",
+			"\tmint& operator-=(const mint a) {",
+				"\t\tif ((x += mod-a.x) >= mod) x -= mod;",
+				"\t\treturn *this;",
+			"\t}",
+			"\tmint& operator*=(const mint a) { (x *= a.x) %= mod; return *this;}",
+			"\tmint operator+(const mint a) const { return mint(*this) += a;}",
+			"\tmint operator-(const mint a) const { return mint(*this) -= a;}",
+			"\tmint operator*(const mint a) const { return mint(*this) *= a;}",
+			"\tmint pow(ll t) const {",
+				"\t\tif (!t) return 1;",
+				"\t\tmint a = pow(t>>1);",
+				"\t\ta *= a;",
+				"\t\tif (t&1) a *= *this;",
+				"\t\treturn a;",
+			"\t}",
+			"\t// for prime mod",
+			"\tmint inv() const { return pow(mod-2);}",
+			"\tmint& operator/=(const mint a) { return *this *= a.inv();}",
+			"\tmint operator/(const mint a) const { return mint(*this) /= a;}",
+			"};",
+			"istream& operator>>(istream& is, const mint& a) { return is >> a.x;}",
+			"ostream& operator<<(ostream& os, const mint& a) { return os << a.x;}",
+		],
+		"description": "%mod"
+	},
+	"combination":{
+		"prefix": "Combination",
+		"body": [
+			"struct combination {",
+				"\tvector<mint> fact, ifact;",
+				"\tcombination(int n):fact(n+1),ifact(n+1) {",
+					"\t\tassert(n < mod);",
+					"\t\tfact[0] = 1;",
+					"\t\tfor (int i = 1; i <= n; ++i) fact[i] = fact[i-1]*i;",
+					"\t\tifact[n] = fact[n].inv();",
+					"\t\tfor (int i = n; i >= 1; --i) ifact[i-1] = ifact[i]*i;",
+				"\t}",
+				"\tmint operator()(int n, int k) {",
+					"\t\tif (k < 0 || k > n) return 0;",
+					"\t\treturn fact[n]*ifact[k]*ifact[n-k];",
+				"\t}",
+			"};"
+		],
+		"description": "%modでの2項係数"
+	},
+	"factorize":{
+		"prefix": "Factorize",
+		"body": [
+			"vector<pair<ll, int>> factorize(ll n){",
+				"\tvector<pair<ll, int>> res;",
+				"\tfor (ll i = 2; i*i <= n; ++i){",
+					"\t\tif (n%i) continue;",
+					"\t\tres.emplace_back(i, 0);",
+					"\t\twhile (n%i == 0){",
+						"\t\t\tn /= i;",
+						"\t\t\tres.back().second++;",
+					"\t\t}",
+				"\t}",
+				"\tif(n != 1) res.emplace_back(n, 1);",
+				"\treturn res;",
+			"}",
+		],
+		"description": "素因数分解"
+	},
+	"O-Sak":{
+		"prefix": "Osak",
+		"body":[
+			"struct osak{",
+				"\tvector<int> d;",
+				"\tosak(int n) :d(n+1, 1) {",
+					"\t\tfor(int i = 2; i <= n; i++){",
+						"\t\t\tif (d[i] != 1) continue;",
+						"\t\t\tfor(int j = i; j <= n; j += i){",
+							"\t\t\t\tif (d[j] == 1) d[j] = i;",
+						"\t\t\t}",
+					"\t\t}",
+				"\t}",
+				"\tvector<P> factorize(int x){",
+					"\t\tvector<P> res;",
+					"\t\tint y = d[x];",
+					"\t\tint cnt = 1;",
+					"\t\twhile(x != 1){",
+						"\t\t\tx /= y;",
+						"\t\t\tif (d[x] != y){",
+							"\t\t\t\tres.push_back(P(y, cnt));",
+							"\t\t\t\tcnt = 0;",
+						"\t\t\t}",
+						"\t\t\ty = d[x];",
+						"\t\t\tcnt++;",
+					"\t\t}",
+					"\t\treturn res;",
+				"\t}",
+			"};",
+		],
+		"description": "高速素因数分解"
+	},
+	"enumerate_num":{
+		"prefix": "EnumerateNum",
+		"body": [
+			"vector<ll> enumerate_num(ll x){",
+				"\tvector<ll> res;",
+				"\tfor(ll i = 1; i * i <= x; i++){",
+					"\t\tif (x % i == 0){",
+						"\t\t\tres.push_back(i);",
+						"\t\t\tif (i * i != x) res.push_back(x / i);",
+					"\t\t}",
+				"\t}",
+				"\tsort(all(res));",
+				"\treturn res;",
+			"}",
+		],
+		"description": "約数列挙"
+	},
+	"UnionFind":{
+		"prefix": "UnionFind",
+		"body": [
+			"struct UnionFind{",
+				"\tvector<int> d;",
+				"\tUnionFind(int n = 0): d(n, -1){}",
+				"\tint find(int x){",
+					"\t\tif (d[x] < 0) return x;",
+					"\t\treturn d[x] = find(d[x]);",
+				"\t}",
+				"\tbool unite(int x, int y){",
+					"\t\tx = find(x); y = find(y);",
+					"\t\tif (x == y) return false;",
+					"\t\tif (d[x] > d[y]) swap(x, y);",
+					"\t\td[x] += d[y];",
+					"\t\td[y] = x;",
+					"\t\treturn true;",
+				"\t}",
+				"\tbool same(int x, int y) {return find(x) == find(y);}",
+				"\tint size(int x){return -d[find(x)];}",
+			"};"
+		],
+		"description": "UnionFind"
+	},
+	"choose_ll":{
+		"prefix": "ChooseLL",
+		"body":[
+			"ll choose(ll n, ll r){",
+				"\tll res = 1;",
+				"\tfor(int i = 1; i <= r; i++){",
+					"\t\tres *= n--;",
+					"\t\tres /= i;",
+				"\t}",
+				"\treturn res;",
+			"}"
+		],
+		"description": "選び方(long long)"
+	},
+	"test_input":{
+		"prefix": "TestInput",
+		"body": [
+			"random_device rand_seed;",
+			"mt19937_64 engine(rand_seed());"
+		]
+	},
+	"Point":{
+		"prefix": "Point",
+		"body": [
+			"struct Point{",
+				"\tdouble x, y;",
+				"\tPoint(double x = 0, double y = 0): x(x), y(y){}",
+			"",
+				"\tPoint operator + (Point p) { return Point(x + p.x, y + p.y); };",
+				"\tPoint operator - (Point p) { return Point(x - p.x, y - p.y); };",
+				"\tPoint operator * (double k) { return Point(x * k, y * k); };",
+				"\tPoint operator / (double k) { return Point(x / k, y / k); };",
+			
+				"\tdouble norm(){ return x * x + y * y; };",
+				"\tdouble abs(){  return sqrt(norm()); };",
+			"};",
+			"typedef Point Vector;",
+			"",
+			"double dot(Vector v1, Vector v2){",
+				"\treturn v1.x * v2.x + v1.y * v2.y;",
+			"}",
+			"",
+			"double cross(Vector v1, Vector v2){",
+				"\treturn a.x * b.y - a.y * b.x;",
+			"}",
+		],
+	},
+	"aizu_online":{
+		"prefix": "AizuOnline",
+		"body": [
+			"#include <iostream>",
+			"#include <string>",
+			"#include <vector>",
+			"#include <algorithm>",
+			"using namespace std;",
+			"#define rep(i, n) for (int i = 0; i < (int)(n); i++)",
+			"#define  all(x) (x).begin(),(x).end()",
+			"typedef long long ll;",
+		],
+		"description": "aizu_online_snipet"
+	}
+}
