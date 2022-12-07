@@ -20,39 +20,25 @@ template<class T> bool chmin(T &a, const T &b) { if (a>b) { a=b; return true; } 
 const int inf = 1 << 29;
 const ll INF = 1LL << 60;
 
-vector<pair<ll, ll>> factorize(ll n){
-    vector<pair<ll, ll>> res;
-    for (ll i = 2; i*i <= n; ++i){
-        if (n%i) continue;
-        res.emplace_back(i, 0);
-        while (n%i == 0){
-            n /= i;
-            res.back().second++;
-        }
-    }
-    if(n != 1) res.emplace_back(n, 1);
-    return res;
-}
-
 int main(){
-    ll k;
-    cin >> k;
-    vector<pair<ll, ll>> v = factorize(k);
-    ll ans = 1;
-    rep(i, sz(v)){
-        ll cnt = 0;
-        for (ll j = v[i].first; j <= v[i].first*v[i].second; j += v[i].first) {
-            ll num = j;
-            while(num >= v[i].first && num % v[i].first == 0) {
-                cnt++;
-                num /= v[i].first;
-            }
-            if (v[i].second <= cnt) {
-                ans = max(ans, v[i].first * (j/v[i].first));
-                break;
-            }
+    int n, k;
+    cin >> n >> k;
+    VI a(k);
+    rep(i,k) cin >> a[i];
+    VVL dp(2, VL(n+1));
+    rep(i,n+1) {
+        dp[0][i] = 0;
+        dp[1][i] = INF;
+    }
+    dp[0][0] = 0; dp[1][0] = 0;
+    
+    for(int i = 0; i <= n; i++) {
+        for(int j = 0; j < k; j++){
+            if (a[j] > i) break;
+            chmax(dp[0][i], dp[1][i-a[j]] + a[j]);
+            chmin(dp[1][i], dp[0][i-a[j]]);
         }
     }
-    cout << ans << endl;
+    cout << dp[0][n] << endl;
     return 0;
 }

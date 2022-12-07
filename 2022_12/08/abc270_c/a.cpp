@@ -20,39 +20,44 @@ template<class T> bool chmin(T &a, const T &b) { if (a>b) { a=b; return true; } 
 const int inf = 1 << 29;
 const ll INF = 1LL << 60;
 
-vector<pair<ll, ll>> factorize(ll n){
-    vector<pair<ll, ll>> res;
-    for (ll i = 2; i*i <= n; ++i){
-        if (n%i) continue;
-        res.emplace_back(i, 0);
-        while (n%i == 0){
-            n /= i;
-            res.back().second++;
-        }
-    }
-    if(n != 1) res.emplace_back(n, 1);
-    return res;
-}
-
 int main(){
-    ll k;
-    cin >> k;
-    vector<pair<ll, ll>> v = factorize(k);
-    ll ans = 1;
-    rep(i, sz(v)){
-        ll cnt = 0;
-        for (ll j = v[i].first; j <= v[i].first*v[i].second; j += v[i].first) {
-            ll num = j;
-            while(num >= v[i].first && num % v[i].first == 0) {
-                cnt++;
-                num /= v[i].first;
-            }
-            if (v[i].second <= cnt) {
-                ans = max(ans, v[i].first * (j/v[i].first));
-                break;
-            }
+    int n, x, y;
+    cin >> n >> x >> y;
+    x--; y--;
+    VVI t(n);
+    rep(i,n-1) {
+        int u, v;
+        cin >> u >> v;
+        u--; v--;
+        t[u].push_back(v);
+        t[v].push_back(u);
+    }
+
+    VI p(n, -1);
+    vector<bool> visited(n, false);
+    queue<int> q;
+    q.push(x);
+    visited[x] = true;
+    while(!q.empty()) {
+        int u = q.front(); q.pop();
+        for(int v: t[u]) {
+            if (visited[v]) continue;
+            q.push(v);
+            p[v] = u;
+            visited[v] = true;
         }
     }
-    cout << ans << endl;
+    VI ans;
+    int nd = y;
+    while(nd != -1) {
+        ans.push_back(nd);
+        nd = p[nd];
+    }
+    reverse(all(ans));
+    rep(i, sz(ans)) {
+        printf("%d", ans[i]+1);
+        if (i+1 == sz(ans)) printf("\n");
+        else printf(" ");
+    }
     return 0;
 }

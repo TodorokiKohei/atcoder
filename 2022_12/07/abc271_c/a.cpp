@@ -20,38 +20,18 @@ template<class T> bool chmin(T &a, const T &b) { if (a>b) { a=b; return true; } 
 const int inf = 1 << 29;
 const ll INF = 1LL << 60;
 
-vector<pair<ll, ll>> factorize(ll n){
-    vector<pair<ll, ll>> res;
-    for (ll i = 2; i*i <= n; ++i){
-        if (n%i) continue;
-        res.emplace_back(i, 0);
-        while (n%i == 0){
-            n /= i;
-            res.back().second++;
-        }
-    }
-    if(n != 1) res.emplace_back(n, 1);
-    return res;
-}
-
 int main(){
-    ll k;
-    cin >> k;
-    vector<pair<ll, ll>> v = factorize(k);
-    ll ans = 1;
-    rep(i, sz(v)){
-        ll cnt = 0;
-        for (ll j = v[i].first; j <= v[i].first*v[i].second; j += v[i].first) {
-            ll num = j;
-            while(num >= v[i].first && num % v[i].first == 0) {
-                cnt++;
-                num /= v[i].first;
-            }
-            if (v[i].second <= cnt) {
-                ans = max(ans, v[i].first * (j/v[i].first));
-                break;
-            }
-        }
+    int n;
+    cin >> n;
+    VI a(n);
+    rep(i,n) cin >> a[i];
+    unordered_set<int> st;
+    rep(i,n) st.insert(a[i]);
+    int ans = 0, s = 0;
+    for(int i = 1;; i++) {
+        if (st.count(i)) s += 1; else s += 2;
+        if (s > n) break;
+        ans = i;
     }
     cout << ans << endl;
     return 0;

@@ -20,39 +20,42 @@ template<class T> bool chmin(T &a, const T &b) { if (a>b) { a=b; return true; } 
 const int inf = 1 << 29;
 const ll INF = 1LL << 60;
 
-vector<pair<ll, ll>> factorize(ll n){
-    vector<pair<ll, ll>> res;
-    for (ll i = 2; i*i <= n; ++i){
-        if (n%i) continue;
-        res.emplace_back(i, 0);
-        while (n%i == 0){
-            n /= i;
-            res.back().second++;
-        }
-    }
-    if(n != 1) res.emplace_back(n, 1);
-    return res;
-}
-
 int main(){
-    ll k;
-    cin >> k;
-    vector<pair<ll, ll>> v = factorize(k);
-    ll ans = 1;
-    rep(i, sz(v)){
-        ll cnt = 0;
-        for (ll j = v[i].first; j <= v[i].first*v[i].second; j += v[i].first) {
-            ll num = j;
-            while(num >= v[i].first && num % v[i].first == 0) {
-                cnt++;
-                num /= v[i].first;
-            }
-            if (v[i].second <= cnt) {
-                ans = max(ans, v[i].first * (j/v[i].first));
-                break;
+    int n, s;
+    cin >> n >> s;
+    VP ab(n);
+    rep(i,n) {
+        int a, b;
+        cin >> a >> b;
+        ab[i] = {a, b};
+    }
+
+    VVI dp(n+1, VI(s+1));
+    dp[0][0] = 1;
+    rep(i,n) {
+        rep(j, s+1) {
+            if (dp[i][j] == 1) {
+                if (j + ab[i].first <= s ) dp[i+1][j+ab[i].first] = 1;
+                if (j + ab[i].second <= s ) dp[i+1][j+ab[i].second] = 1;
             }
         }
     }
-    cout << ans << endl;
+    if (dp[n][s] == 0) {
+        cout << "No" << endl;
+        return 0;
+    }
+    cout << "Yes" << endl;
+    string ans(n, 'H');
+    rrep(i, n) {
+        if (s - ab[i].first >= 0 && dp[i][s-ab[i].first] == 1) {
+            s -= ab[i].first;
+            ans[i] = 'H';
+        }else {
+            s -= ab[i].second;
+            ans[i] = 'T';
+        }
+    }
+    rep(i,n) cout << ans[i];
+    cout << endl;
     return 0;
 }

@@ -60,6 +60,9 @@ function mf(){
 
 }
 
+function op(){
+    code -r a.cpp
+}
 
 function tst(){
     g++ -std=c++17 -Wall -I ~/ac-library a.cpp && oj t
@@ -67,4 +70,8 @@ function tst(){
 
 function sub(){
     oj s a.cpp
+}
+
+function g(){
+    g++ -std=c++17 -Wall -I ~/ac-library $1
 }
