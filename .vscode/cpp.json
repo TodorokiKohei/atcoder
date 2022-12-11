@@ -268,5 +268,21 @@
 			"typedef long long ll;",
 		],
 		"description": "aizu_online_snipet"
+	}, 
+	"runLength": {
+		"prefix": "RunLength",
+		"body": [
+			"void rle(string s, vector<pair<char, int>> &vec) {",
+				"\tint cnt = 1;",
+				"\tfor(int i = 1; i < sz(s); i++) {",
+					"\t\tif (s[i] != s[i-1]) {",
+						"\t\t\tvec.push_back({s[i-1], cnt});",
+						"\t\t\tcnt = 0;",
+					"\t\t}",
+					"\t\tcnt++;",
+				"\t}",
+				"\tvec.push_back({s.back(), cnt});",
+			"}"
+		]
 	}
 }
