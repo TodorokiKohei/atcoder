@@ -64,6 +64,10 @@ function op(){
     code -r a.cpp
 }
 
+function dl(){
+    oj d "$1"
+}
+
 function tst(){
     g++ -std=c++17 -Wall -I ~/ac-library a.cpp && oj t
 }
@@ -73,5 +77,11 @@ function sub(){
 }
 
 function g(){
-    g++ -std=c++17 -Wall -I ~/ac-library $1
+    g++ -std=c++17 -Wall -I ~/ac-library "$1"
+}
+
+function commit(){
+    git add -A
+    git commit -m "commit"
+    git push origin main
 }
